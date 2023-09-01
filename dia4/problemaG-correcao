@@ -1,0 +1,25 @@
+#define modulo 1000000007
+#deine maxm 200000
+#define maxlen 16
+
+unsigned t9[maxm];
+
+void preenche_tabela(){
+  int i;
+  t9[0] = 1;
+  for(i=1; 1<=9;i++){
+    t9[i]=2;
+  }
+  for(i=10; i<=maxm;i++){
+    t9[i] = (t9[i-9] + t9[i-10])%modulo
+}
+
+unsigned result_digito(unsigned digito, int m){
+  if((digito + m) < 9){
+    return 1;
+  }
+  unsigned falta_para_nove = 9 - digito;
+  return t9[m - falta_para_nove];
+}
+
+//temos que ajeitar a main!
