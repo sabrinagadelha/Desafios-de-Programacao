@@ -1,0 +1,48 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<bitset>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef map<int, int> mi;
+
+ll  tamanho;
+bitset<32000> bs;
+vi primes;
+
+void sieve(ll maximo){
+    tamanho = maximo + 1;
+    bs.set();
+    bs[0] = bs[1] = 0;
+    for (ll i = 2; i <= tamanho; i++){
+        if(bs[i]){
+            for(ll j = i*i; j <= tamanho; j+=i){
+                bs[j] = 0;
+            }
+            primes.push_back((int)i);
+        }
+    }
+}
+
+bool ehPrimo(ll n){
+    if(n < tamanho){
+        return bs[n];
+    }
+    for(int i = 0; i < (int)primes.size(); i++){
+        if(n % primes[i] == 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+int main(){
+    tamanho = 32000;
+    ll n;
+    scanf("%d", &n);
+    sieve(tamanho);
+    printf("%d\n", ehPrimo(n));
+    return 0;
+}
