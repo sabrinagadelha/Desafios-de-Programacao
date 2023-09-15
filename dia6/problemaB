@@ -1,0 +1,47 @@
+#include<stdio.h>
+
+typedef struct frac{
+    int numerador, denominador;
+}frac;
+
+frac frac_irr(frac numero){
+    int reduzida = 0, n=2;
+    frac intermediaria;
+    intermediaria.numerador = numero.numerador; intermediaria.denominador = numero.denominador;
+    if(numero.numerador != 1 && numero.denominador != 1){
+        while(reduzida != 1){
+            while(numero.numerador >= n && numero.denominador >= n){
+                if(numero.numerador%n == 0 && numero.denominador%n == 0){
+                    numero.numerador = numero.numerador/n; 
+                    numero.denominador = numero.denominador/n;
+                }
+                n += 1;
+            }
+            n = 2;
+            if(intermediaria.numerador == numero.numerador){
+                reduzida = 1;
+            }
+            else{
+                intermediaria.numerador = numero.numerador; intermediaria.denominador = numero.denominador;
+            }
+        }
+        return numero;
+    }
+    else{
+        return numero;
+    }
+}
+
+int main(){
+    int n, primeiro, atual;
+    frac frac_atual, frac_red;
+    scanf("%d", &n);
+    scanf("%d", &primeiro);
+    for(int i=0; i<(n-1); i++){
+        scanf("%d", &atual);
+        frac_atual.numerador = primeiro; frac_atual.denominador = atual;
+        frac_red = frac_irr(frac_atual);
+        printf("%d/%d\n", frac_red.numerador, frac_red.denominador);
+    }
+    return 0;
+}
