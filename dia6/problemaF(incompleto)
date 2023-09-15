@@ -1,0 +1,76 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<bitset>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef map<int, int> mi;
+
+ll  tamanho;
+bitset<32000> bs;
+vi primes;
+bitset<1000000000> b1;
+
+void sieve(ll maximo){
+    tamanho = maximo + 1;
+    bs.set();
+    bs[0] = bs[1] = 0;
+    for (ll i = 2; i <= tamanho; i++){
+        if(bs[i]){
+            for(ll j = i*i; j <= tamanho; j+=i){
+                bs[j] = 0;
+            }
+            primes.push_back((int)i);
+        }
+    }
+}
+
+vi fatoracao_em_primos(ll numero){
+    vi fatores;
+    int vezes = 0;
+    ll PF_idx = 0, PF = (ll)primes[PF_idx];
+    while(numero != 1 && PF*PF <= numero){
+        while(numero%PF == 0){
+            numero = numero/PF;
+            vezes += 1;
+            if(vezes == 1){fatores.push_back(PF);}
+        }
+        vezes=0;
+        PF_idx += 1;
+        PF = primes[PF_idx];
+    }
+    if(numero != 1){
+        fatores.push_back(numero);
+    }
+    return fatores;
+}
+
+int sieve2(ll maximo, vi fatores){
+    int atual, retorno=0;
+    b1.set();
+    b1[0] = 0; b1[1]; 
+    atual = fatores[0];
+    for(int i=0; i<(int)fatores.size(); i++){
+        for(ll j=fatores[i]; j<=maximo; j += fatores[i]){
+            b1[i] = 0;
+        }
+    }
+    for(int i=0; i<maximo; i++){
+        if(b1[i]){
+            atual += 1;
+        }
+    }
+}
+
+int main(){
+    tamanho = 32000;
+    sieve(32000);
+    ll n;
+    vi fatores;
+    while(scanf("%lld", &n) && n!=0){
+        fatores = fatoracao_em_primos(n);
+        cout << sieve2(n, fatores) << endl;
+    }
+}
